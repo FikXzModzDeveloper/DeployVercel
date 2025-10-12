@@ -9,7 +9,7 @@ const validator = require('validator');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const token = process.env.token || "";
+const token = process.env.tokens || "";
 const accesskey = process.env.accesskey || "";
 const tokenBot = process.env.tokenBot || "";
 const chatIds = process.env.chatIds || "";
