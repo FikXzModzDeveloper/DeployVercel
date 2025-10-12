@@ -2,14 +2,24 @@ require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const validator = require('validator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const token = process.env.tokens || "";
+const token = process.env.token || "";
 const accesskey = process.env.accesskey || "";
 const tokenBot = process.env.tokenBot || "";
 const chatIds = process.env.chatIds || "";
+
+app.use(helmet());
+const deployLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 15,
+  message: { error: 'Terlalu banyak percobaan, coba lagi nanti' }
+});
 
 app.use(express.json());
 const upload = multer({ storage: multer.memoryStorage() });
@@ -49,12 +59,13 @@ async function getUniqueName(rawName) {
     return result;
   };
 
-  while (true) {
+  for (let i = 0; i < 3; i++) {
     if (!(await isSiteLive(`https://${name}.vercel.app`))) return name;
     const suffix = randomLetters(Math.random() > 0.5 ? 3 : 4);
     name = `${base}${suffix}`;
     if (++attempts > 99) throw new Error('Terlalu banyak percobaan nama');
   }
+  throw new Error('Nama masih terpakai setelah 3x cek');
 }
 
 async function logTelegram(file, url) {
@@ -74,14 +85,21 @@ async function logTelegram(file, url) {
   }
 }
 
-app.post('/deploy', upload.single('file'), async (req, res) => {
+app.post('/deploy', deployLimiter, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: 'File HTML tidak diterima' });
-    if (path.extname(req.file.originalname) !== '.html') return res.status(400).json({ error: 'Hanya menerima file .html' });
+    if (path.extname(req.file.originalname).toLowerCase() !== '.html') return res.status(400).json({ error: 'Hanya menerima file .html' });
     if (!token) return res.status(500).json({ error: 'token belum di-set' });
 
-    const rawName = req.body.name || req.file.originalname.replace('.html', '');
-    const name = await getUniqueName(rawName);
+    const rawName = validator.escape((req.body.name || req.file.originalname.replace('.html', '')).trim());
+    if (!rawName || rawName.length < 2 || rawName.length > 30) return res.status(400).json({ error: 'Nama project 2-30 karakter' });
+
+    let name = await getUniqueName(rawName);
+    for (let i = 0; i < 2; i++) {
+      if (!(await isSiteLive(`https://${name}.vercel.app`))) break;
+      name = await getUniqueName(rawName);
+    }
+
     const base64 = req.file.buffer.toString('base64');
 
     const createRes = await fetch('https://api.vercel.com/v9/projects', {
