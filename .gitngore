@@ -1,0 +1,14 @@
+# Environment files
+.env
+.env.bak
+
+# Backup files
+index.html.bak
+index_backup.html
+server.js.bak
+
+# Node.js dependencies
+node_modules/
+
+# Lock files
+package-lock.json

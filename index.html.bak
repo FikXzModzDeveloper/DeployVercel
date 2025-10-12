@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deploy | FikXzMods</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --danger: #ef4444;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+      --success: #16a34a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f1f5f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    .deploy-container {
+      background-color: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      width: 100%;
+      max-width: 420px;
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp .5s ease-out forwards;
+      position: relative;
+    }
+    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      margin-bottom: 1.5rem;
+    }
+    .logo-icon { font-size: 1.75rem; color: var(--primary); }
+    .logo-text { font-size: 1.5rem; font-weight: 600; color: var(--dark); }
+    .deploy-form { margin-top: 1.5rem; }
+    .form-group { margin-bottom: 1.25rem; position: relative; }
+    .form-label {
+      display: block;
+      margin-bottom: .5rem;
+      font-size: .9rem;
+      color: var(--dark);
+      font-weight: 500;
+    }
+    .form-control {
+      width: 100%;
+      padding: .75rem 1rem .75rem 2.5rem;
+      border: 1px solid var(--gray-light);
+      border-radius: .5rem;
+      font-size: .95rem;
+      transition: all .3s ease;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(67,97,238,.2);
+    }
+    .input-icon {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-size: 1rem;
+    }
+    .btn {
+      width: 100%;
+      padding: .75rem;
+      border-radius: .5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .3s ease;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+    .btn-primary { background-color: var(--primary); color: white; }
+    .btn-primary:hover { background-color: #3a56d4; }
+    .btn-green { background-color: var(--success); color: white; }
+    .btn-green:hover { background-color: #15803d; }
+    .alert {
+      padding: .9rem;
+      border-radius: .5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      background-color: #fee2e2;
+      color: var(--danger);
+      border-left: 4px solid var(--danger);
+      font-size: .95rem;
+    }
+    .alert-icon { font-size: 1.1rem; }
+    .footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--gray);
+      font-size: .85rem;
+    }
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+    }
+    .footer a:hover { text-decoration: underline; }
+
+    .history-btn {
+      position: absolute;
+      top: .75rem;
+      right: .75rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: .4rem;
+      padding: .4rem .6rem;
+      font-size: .7rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+    .history-btn:hover { background: #3a56d4; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal-box {
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    }
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: .75rem;
+    }
+    .modal-input {
+      width: 100%;
+      padding: .6rem .75rem;
+      border: 1px solid var(--gray-light);
+      border-radius: .5rem;
+      margin-bottom: 1rem;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: .5rem;
+    }
+    .modal-btn {
+      padding: .45rem 1rem;
+      border-radius: .5rem;
+      border: none;
+      cursor: pointer;
+      font-size: .9rem;
+    }
+    .modal-btn-cancel { background: var(--gray-light); color: var(--dark); }
+    .modal-btn-ok { background: var(--primary); color: white; }
+    .project-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .5rem .75rem;
+      border: 1px solid var(--gray-light);
+      border-radius: .5rem;
+      margin-bottom: .5rem;
+    }
+    .project-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .project-link:hover { text-decoration: underline; }
+    .project-del {
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: .35rem;
+      padding: .25rem .55rem;
+      font-size: .75rem;
+      cursor: pointer;
+    }
+    .project-del:hover { background: #dc2626; }
+    .text-center { text-align: center; }
+    .text-sm { font-size: .875rem; }
+    .text-gray-500 { color: var(--gray); }
+    .hidden { display: none; }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: white;
+      border-radius: .75rem;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 8px 25px rgba(0,0,0,.15);
+      display: none;
+      align-items: center;
+      gap: .75rem;
+      min-width: 280px;
+      max-width: 380px;
+      z-index: 10000;
+      animation: toastIn .4s ease;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .toast-icon { font-size: 1.25rem; }
+    .toast.success .toast-icon { color: var(--success); }
+    .toast.error .toast-icon { color: var(--danger); }
+    .toast-body { flex: 1; font-size: .9rem; color: var(--dark); }
+    .toast-close {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: var(--gray);
+      cursor: pointer;
+      padding: .25rem;
+    }
+
+    .result-box {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      border-radius: .75rem;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      display: none;
+      animation: fadeInUp .4s ease;
+    }
+    .result-box.error {
+      background: #fef2f2;
+      border-color: #fecaca;
+    }
+    .result-logo {
+      font-size: 2.5rem;
+      color: var(--success);
+      text-align: center;
+      margin-bottom: .75rem;
+    }
+    .result-box.error .result-logo { color: var(--danger); }
+    .result-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: .5rem;
+    }
+    .result-item {
+      font-size: .85rem;
+      margin: .25rem 0;
+      display: flex;
+      gap: .5rem;
+    }
+    .result-item strong { min-width: 70px; }
+    .result-link {
+      color: var(--primary);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .result-link:hover { text-decoration: underline; }
+
+    .loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+    }
+    .loading-box {
+      text-align: center;
+      padding: 2rem;
+      border-radius: 1rem;
+      background: white;
+      box-shadow: 0 8px 30px rgba(0,0,0,.1);
+    }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--gray-light);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto .75rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-size: .9rem;
+      color: var(--gray);
+    }
+
+    .history-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: .75rem;
+    }
+    .history-item {
+      background: var(--light);
+      border: 1px solid var(--gray-light);
+      border-radius: .5rem;
+      padding: .75rem;
+      margin-bottom: .5rem;
+      font-size: .8rem;
+    }
+    .history-item strong { color: var(--dark); }
+    .history-empty {
+      text-align: center;
+      color: var(--gray);
+      font-size: .8rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="deploy-container">
+    <button class="history-btn" onclick="openHistoryModal()">
+      <i class="fas fa-history"></i> Riwayat
+    </button>
+
+    <div class="logo">
+      <i class="fas fa-rocket logo-icon"></i>
+      <span class="logo-text">Deploy ke Vercel</span>
+    </div>
+
+    <form class="deploy-form" id="deployForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label class="form-label" for="siteName">Nama Website</label>
+        <div style="position: relative;">
+          <i class="fas fa-globe input-icon"></i>
+          <input type="text" id="siteName" name="name" class="form-control" placeholder="contoh: mysite" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="htmlFile">File HTML</label>
+        <div style="position: relative;">
+          <i class="fas fa-file-code input-icon"></i>
+          <input type="file" id="htmlFile" name="file" class="form-control" accept=".html" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-upload"></i> Deploy Sekarang
+      </button>
+      <div id="resultBox" class="result-box">
+        <div class="result-logo"><i class="fas fa-check-circle"></i></div>
+        <div class="result-title">Deploy Successfully</div>
+        <div class="result-item"><strong>Name:</strong><span id="resName"></span></div>
+        <div class="result-item"><strong>File:</strong><span id="resFile"></span></div>
+        <div class="result-item"><strong>URL:</strong><a id="resUrl" href="#" target="_blank" class="result-link"></a></div>
+      </div>
+    </form>
+
+    <button onclick="openKeyModal('list')" class="btn btn-green mt-4">
+      <i class="fas fa-list"></i> Lihat Daftar Web
+    </button>
+
+    <div class="footer">
+      <a href="https://vercel.com" target="_blank">
+        <i class="fas fa-external-link-alt"></i> Powered by FikXzMods
+      </a>
+    </div>
+  </div>
+
+  <div id="historyModal" class="modal">
+    <div class="modal-box" style="max-width: 480px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem;">
+        <div class="modal-title">Riwayat Deploy</div>
+        <button onclick="closeHistoryModal()" class="modal-btn modal-btn-cancel" style="padding: .25rem .55rem;">&times;</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
+      <div id="historyEmpty" class="history-empty hidden">Belum ada riwayat deploy.</div>
+    </div>
+  </div>
+
+  <div id="keyModal" class="modal">
+    <div class="modal-box">
+      <div class="modal-title">Masukkan Access Key</div>
+      <input id="keyInput" type="password" class="modal-input" placeholder="Access Key">
+      <div class="modal-actions">
+        <button onclick="closeKeyModal()" class="modal-btn modal-btn-cancel">Batal</button>
+        <button onclick="submitKey()" class="modal-btn modal-btn-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="listModal" class="modal">
+    <div class="modal-box" style="max-width: 500px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem;">
+        <div class="modal-title">Daftar Project</div>
+        <button onclick="closeListModal()" class="modal-btn modal-btn-cancel" style="padding: .25rem .55rem;">&times;</button>
+      </div>
+      <div id="projectListLoading" class="text-sm text-gray-500 text-center">
+        <div class="spinner" style="width: 24px; height: 24px; border-width: 3px; margin: 0 auto .5rem;"></div>
+        Loading....
+      </div>
+      <div id="projectList" class="hidden" style="max-height: 320px; overflow-x: auto;"></div>
+    </div>
+  </div>
+
+  <div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loadingText">Loading....</div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">
+    <i class="toast-icon"></i>
+    <div class="toast-body"></div>
+    <button class="toast-close" onclick="this.parentElement.style.display='none'">&times;</button>
+  </div>
+
+  <script>
+    const form = document.getElementById('deployForm');
+    const resultBox = document.getElementById('resultBox');
+
+    function showLoading(text = 'Loading....') {
+      document.getElementById('loadingText').textContent = text;
+      document.getElementById('loadingOverlay').style.display = 'flex';
+    }
+
+    function hideLoading() {
+      document.getElementById('loadingOverlay').style.display = 'none';
+    }
+
+    function showResult(data) {
+      resultBox.style.display = 'block';
+      resultBox.classList.remove('error');
+      document.querySelector('.result-logo').innerHTML = '<i class="fas fa-check-circle"></i>';
+      document.querySelector('.result-title').textContent = 'Deploy Successfully';
+      document.getElementById('resName').textContent = data.name;
+      document.getElementById('resFile').textContent = data.file;
+      document.getElementById('resUrl').textContent = data.url;
+      document.getElementById('resUrl').href = data.url;
+    }
+
+    function showErrorResult(msg) {
+      resultBox.style.display = 'block';
+      resultBox.classList.add('error');
+      document.querySelector('.result-logo').innerHTML = '<i class="fas fa-times-circle"></i>';
+      document.querySelector('.result-title').textContent = 'Deploy Failed';
+      document.getElementById('resName').textContent = '-';
+      document.getElementById('resFile').textContent = '-';
+      document.getElementById('resUrl').textContent = msg;
+      document.getElementById('resUrl').href = '#';
+    }
+
+    function saveHistory(name, file, url) {
+      const history = JSON.parse(localStorage.getItem('deployHistory') || '[]');
+      history.unshift({
+        name,
+        file,
+        url,
+        time: new Date().toLocaleString('id-ID')
+      });
+      if (history.length > 20) history.pop();
+      localStorage.setItem('deployHistory', JSON.stringify(history));
+    }
+
+    function openHistoryModal() {
+      showLoading('Memuat riwayat....');
+      const history = JSON.parse(localStorage.getItem('deployHistory') || '[]');
+      const listDiv = document.getElementById('historyList');
+      const emptyDiv = document.getElementById('historyEmpty');
+      listDiv.innerHTML = '';
+      if (history.length === 0) {
+        emptyDiv.classList.remove('hidden');
+        listDiv.classList.add('hidden');
+      } else {
+        emptyDiv.classList.add('hidden');
+        listDiv.classList.remove('hidden');
+        listDiv.innerHTML = history.map(h => `
+          <div class="history-item">
+            <div><strong>${h.name}</strong></div>
+            <div style="font-size: .75rem; color: var(--gray); margin-top: .25rem;">
+              File: ${h.file} • ${h.time}
+            </div>
+            <div style="margin-top: .25rem;">
+              <a href="${h.url}" target="_blank" style="font-size: .75rem; color: var(--primary);">🔗 ${h.url}</a>
+            </div>
+          </div>
+        `).join('');
+      }
+      hideLoading();
+      document.getElementById('historyModal').style.display = 'flex';
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('historyModal').style.display = 'none';
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resultBox.style.display = 'none';
+      const siteName = document.getElementById('siteName').value.trim();
+      const fileInput = document.getElementById('htmlFile');
+      const fileName = fileInput.files[0]?.name || '';
+
+      showLoading('Deploying....');
+      const formData = new FormData(form);
+      try {
+        const res = await fetch('/deploy', { method: 'POST', body: formData });
+        const data = await res.json();
+        hideLoading();
+        if (res.ok) {
+          saveHistory(siteName, fileName, data.url);
+          showResult({ name: siteName, file: fileName, url: data.url });
+        } else {
+          showErrorResult(data.error || 'Terjadi kesalahan saat deploy.');
+        }
+      } catch {
+        hideLoading();
+        showErrorResult('Gagal terhubung ke server.');
+      }
+    });
+
+    let currentAction = null;
+    let accessKey = '';
+
+    function openKeyModal(action) {
+      currentAction = action;
+      closeListModal();
+      showLoading('Membuka....');
+      setTimeout(() => {
+        hideLoading();
+        document.getElementById('keyModal').style.display = 'flex';
+        document.getElementById('keyInput').value = '';
+        document.getElementById('keyInput').focus();
+      }, 300);
+    }
+
+    function closeKeyModal() {
+      document.getElementById('keyModal').style.display = 'none';
+    }
+
+    function closeListModal() {
+      document.getElementById('listModal').style.display = 'none';
+    }
+
+    async function submitKey() {
+      const key = document.getElementById('keyInput').value.trim();
+      if (!key) return alert('Access key tidak boleh kosong');
+      accessKey = key;
+      closeKeyModal();
+      if (currentAction === 'list') await loadProjects();
+      else if (currentAction?.type === 'delete') await deleteProject(currentAction.name);
+    }
+
+    async function loadProjects() {
+      const listDiv = document.getElementById('projectList');
+      const loading = document.getElementById('projectListLoading');
+      loading.style.display = 'block';
+      listDiv.classList.add('hidden');
+      listDiv.innerHTML = '';
+      try {
+        const res = await fetch(`/projects?key=${accessKey}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Gagal load project');
+        if (data.projects.length === 0) {
+          listDiv.innerHTML = '<p class="text-sm text-gray-500 text-center">Tidak ada project.</p>';
+        } else {
+          listDiv.innerHTML = data.projects.map(p => `
+            <div class="project-item">
+              <a href="https://${p.name}.vercel.app" target="_blank" class="project-link">${p.name}</a>
+              <button onclick="confirmDelete('${p.name}')" class="project-del">Hapus</button>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        listDiv.innerHTML = `<p class="text-sm text-center" style="color: var(--danger);"> ${err.message}</p>`;
+      } finally {
+        loading.style.display = 'none';
+        listDiv.classList.remove('hidden');
+        document.getElementById('listModal').style.display = 'flex';
+      }
+    }
+
+    function confirmDelete(name) {
+      currentAction = { type: 'delete', name };
+      openKeyModal(currentAction);
+    }
+
+    async function deleteProject(name) {
+      showLoading('Deleting....');
+      try {
+        const res = await fetch(`/projects/${name}?key=${accessKey}`, { method: 'DELETE' });
+        const data = await res.json();
+        hideLoading();
+        if (!res.ok) throw new Error(data.error || 'Gagal hapus');
+        showToast(` Project '${name}' berhasil terhapus`, 'success');
+        loadProjects();
+      } catch (err) {
+        hideLoading();
+        showToast(` ${err.message}`, 'error');
+      }
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.querySelector('.toast-body').textContent = message;
+      toast.className = 'toast ' + type;
+      toast.style.display = 'flex';
+      setTimeout(() => toast.style.display = 'none', 4000);
+    }
+  </script>
+</body>
+</html>
