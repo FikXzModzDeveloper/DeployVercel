@@ -16,7 +16,11 @@
       --gray-light: #e2e8f0;
       --success: #16a34a;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #f1f5f9;
@@ -29,46 +33,63 @@
     .deploy-container {
       background-color: white;
       border-radius: 1rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       width: 100%;
       max-width: 420px;
       padding: 2rem;
       opacity: 0;
       transform: translateY(20px);
-      animation: fadeInUp .5s ease-out forwards;
+      animation: fadeInUp 0.5s ease-out forwards;
       position: relative;
     }
-    @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
     .logo {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: .75rem;
+      gap: 0.75rem;
       margin-bottom: 1.5rem;
     }
-    .logo-icon { font-size: 1.75rem; color: var(--primary); }
-    .logo-text { font-size: 1.5rem; font-weight: 600; color: var(--dark); }
-    .deploy-form { margin-top: 1.5rem; }
-    .form-group { margin-bottom: 1.25rem; position: relative; }
+    .logo-icon {
+      font-size: 1.75rem;
+      color: var(--primary);
+    }
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .deploy-form {
+      margin-top: 1.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.25rem;
+      position: relative;
+    }
     .form-label {
       display: block;
-      margin-bottom: .5rem;
-      font-size: .9rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
       color: var(--dark);
       font-weight: 500;
     }
     .form-control {
       width: 100%;
-      padding: .75rem 1rem .75rem 2.5rem;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
       border: 1px solid var(--gray-light);
-      border-radius: .5rem;
-      font-size: .95rem;
-      transition: all .3s ease;
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
     }
     .form-control:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(67,97,238,.2);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
     }
     .input-icon {
       position: absolute;
@@ -80,40 +101,52 @@
     }
     .btn {
       width: 100%;
-      padding: .75rem;
-      border-radius: .5rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all .3s ease;
+      transition: all 0.3s ease;
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: .5rem;
+      gap: 0.5rem;
     }
-    .btn-primary { background-color: var(--primary); color: white; }
-    .btn-primary:hover { background-color: #3a56d4; }
-    .btn-green { background-color: var(--success); color: white; }
-    .btn-green:hover { background-color: #15803d; }
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: #3a56d4;
+    }
+    .btn-green {
+      background-color: var(--success);
+      color: white;
+    }
+    .btn-green:hover {
+      background-color: #15803d;
+    }
     .alert {
-      padding: .9rem;
-      border-radius: .5rem;
+      padding: 0.9rem;
+      border-radius: 0.5rem;
       margin-bottom: 1.5rem;
       display: flex;
       align-items: center;
-      gap: .75rem;
+      gap: 0.75rem;
       background-color: #fee2e2;
       color: var(--danger);
       border-left: 4px solid var(--danger);
-      font-size: .95rem;
+      font-size: 0.95rem;
     }
-    .alert-icon { font-size: 1.1rem; }
+    .alert-icon {
+      font-size: 1.1rem;
+    }
     .footer {
       margin-top: 2rem;
       text-align: center;
       color: var(--gray);
-      font-size: .85rem;
+      font-size: 0.85rem;
     }
     .footer a {
       color: var(--primary);
@@ -121,32 +154,34 @@
       font-weight: 500;
       display: inline-flex;
       align-items: center;
-      gap: .25rem;
+      gap: 0.25rem;
     }
-    .footer a:hover { text-decoration: underline; }
-
+    .footer a:hover {
+      text-decoration: underline;
+    }
     .history-btn {
       position: absolute;
-      top: .75rem;
-      right: .75rem;
+      top: 0.75rem;
+      right: 0.75rem;
       background: var(--primary);
       color: white;
       border: none;
-      border-radius: .4rem;
-      padding: .4rem .6rem;
-      font-size: .7rem;
+      border-radius: 0.4rem;
+      padding: 0.4rem 0.6rem;
+      font-size: 0.7rem;
       font-weight: 500;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: .3rem;
+      gap: 0.3rem;
     }
-    .history-btn:hover { background: #3a56d4; }
-
+    .history-btn:hover {
+      background: #3a56d4;
+    }
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.5);
+      background: rgba(0, 0, 0, 0.5);
       display: none;
       align-items: center;
       justify-content: center;
@@ -158,105 +193,137 @@
       padding: 1.5rem;
       width: 90%;
       max-width: 400px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     }
     .modal-title {
       font-size: 1.1rem;
       font-weight: 600;
-      margin-bottom: .75rem;
+      margin-bottom: 0.75rem;
     }
     .modal-input {
       width: 100%;
-      padding: .6rem .75rem;
+      padding: 0.6rem 0.75rem;
       border: 1px solid var(--gray-light);
-      border-radius: .5rem;
+      border-radius: 0.5rem;
       margin-bottom: 1rem;
     }
     .modal-actions {
       display: flex;
       justify-content: flex-end;
-      gap: .5rem;
+      gap: 0.5rem;
     }
     .modal-btn {
-      padding: .45rem 1rem;
-      border-radius: .5rem;
+      padding: 0.45rem 1rem;
+      border-radius: 0.5rem;
       border: none;
       cursor: pointer;
-      font-size: .9rem;
+      font-size: 0.9rem;
     }
-    .modal-btn-cancel { background: var(--gray-light); color: var(--dark); }
-    .modal-btn-ok { background: var(--primary); color: white; }
+    .modal-btn-cancel {
+      background: var(--gray-light);
+      color: var(--dark);
+    }
+    .modal-btn-ok {
+      background: var(--primary);
+      color: white;
+    }
     .project-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: .5rem .75rem;
+      padding: 0.5rem 0.75rem;
       border: 1px solid var(--gray-light);
-      border-radius: .5rem;
-      margin-bottom: .5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
     }
     .project-link {
       color: var(--primary);
       text-decoration: none;
       font-weight: 500;
     }
-    .project-link:hover { text-decoration: underline; }
+    .project-link:hover {
+      text-decoration: underline;
+    }
     .project-del {
       background: var(--danger);
       color: white;
       border: none;
-      border-radius: .35rem;
-      padding: .25rem .55rem;
-      font-size: .75rem;
+      border-radius: 0.35rem;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.75rem;
       cursor: pointer;
     }
-    .project-del:hover { background: #dc2626; }
-    .text-center { text-align: center; }
-    .text-sm { font-size: .875rem; }
-    .text-gray-500 { color: var(--gray); }
-    .hidden { display: none; }
-
+    .project-del:hover {
+      background: #dc2626;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .text-sm {
+      font-size: 0.875rem;
+    }
+    .text-gray-500 {
+      color: var(--gray);
+    }
+    .hidden {
+      display: none;
+    }
     .toast {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
       background: white;
-      border-radius: .75rem;
+      border-radius: 0.75rem;
       padding: 1rem 1.25rem;
-      box-shadow: 0 8px 25px rgba(0,0,0,.15);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       display: none;
       align-items: center;
-      gap: .75rem;
+      gap: 0.75rem;
       min-width: 280px;
       max-width: 380px;
       z-index: 10000;
-      animation: toastIn .4s ease;
+      animation: toastIn 0.4s ease;
     }
     @keyframes toastIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .toast-icon { font-size: 1.25rem; }
-    .toast.success .toast-icon { color: var(--success); }
-    .toast.error .toast-icon { color: var(--danger); }
-    .toast-body { flex: 1; font-size: .9rem; color: var(--dark); }
+    .toast-icon {
+      font-size: 1.25rem;
+    }
+    .toast.success .toast-icon {
+      color: var(--success);
+    }
+    .toast.error .toast-icon {
+      color: var(--danger);
+    }
+    .toast-body {
+      flex: 1;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
     .toast-close {
       background: none;
       border: none;
       font-size: 1.1rem;
       color: var(--gray);
       cursor: pointer;
-      padding: .25rem;
+      padding: 0.25rem;
     }
-
     .result-box {
       margin-top: 1.5rem;
       padding: 1.25rem;
-      border-radius: .75rem;
+      border-radius: 0.75rem;
       background: #f0fdf4;
       border: 1px solid #bbf7d0;
       display: none;
-      animation: fadeInUp .4s ease;
+      animation: fadeInUp 0.4s ease;
     }
     .result-box.error {
       background: #fef2f2;
@@ -266,33 +333,38 @@
       font-size: 2.5rem;
       color: var(--success);
       text-align: center;
-      margin-bottom: .75rem;
+      margin-bottom: 0.75rem;
     }
-    .result-box.error .result-logo { color: var(--danger); }
+    .result-box.error .result-logo {
+      color: var(--danger);
+    }
     .result-title {
       font-size: 1.1rem;
       font-weight: 600;
       text-align: center;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
     }
     .result-item {
-      font-size: .85rem;
-      margin: .25rem 0;
+      font-size: 0.85rem;
+      margin: 0.25rem 0;
       display: flex;
-      gap: .5rem;
+      gap: 0.5rem;
     }
-    .result-item strong { min-width: 70px; }
+    .result-item strong {
+      min-width: 70px;
+    }
     .result-link {
       color: var(--primary);
       text-decoration: none;
       word-break: break-all;
     }
-    .result-link:hover { text-decoration: underline; }
-
+    .result-link:hover {
+      text-decoration: underline;
+    }
     .loading-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(255,255,255,.85);
+      background: rgba(255, 255, 255, 0.85);
       display: none;
       align-items: center;
       justify-content: center;
@@ -303,7 +375,7 @@
       padding: 2rem;
       border-radius: 1rem;
       background: white;
-      box-shadow: 0 8px 30px rgba(0,0,0,.1);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     }
     .spinner {
       width: 48px;
@@ -312,33 +384,66 @@
       border-top-color: var(--primary);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin: 0 auto .75rem;
+      margin: 0 auto 0.75rem;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
     .loading-text {
-      font-size: .9rem;
+      font-size: 0.9rem;
       color: var(--gray);
     }
-
     .history-list {
       max-height: 300px;
       overflow-y: auto;
-      margin-top: .75rem;
+      margin-top: 0.75rem;
     }
     .history-item {
       background: var(--light);
       border: 1px solid var(--gray-light);
-      border-radius: .5rem;
-      padding: .75rem;
-      margin-bottom: .5rem;
-      font-size: .8rem;
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
     }
-    .history-item strong { color: var(--dark); }
+    .history-item strong {
+      color: var(--dark);
+    }
     .history-empty {
       text-align: center;
       color: var(--gray);
-      font-size: .8rem;
+      font-size: 0.8rem;
       margin-top: 1rem;
+    }
+
+    /* hidden file input + label button */
+    #htmlFile {
+      position: absolute;
+      left: -9999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .file-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--gray-light);
+      border-radius: 0.5rem;
+      background: var(--light);
+      color: var(--dark);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .file-label:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .file-label i {
+      color: var(--primary);
     }
   </style>
 </head>
@@ -353,7 +458,7 @@
       <span class="logo-text">Deploy ke Vercel</span>
     </div>
 
-    <form class="deploy-form" id="deployForm" enctype="multipart/form-data">
+    <form class="deploy-form" id="deployForm">
       <div class="form-group">
         <label class="form-label" for="siteName">Nama Website</label>
         <div style="position: relative;">
@@ -361,16 +466,20 @@
           <input type="text" id="siteName" name="name" class="form-control" placeholder="contoh: mysite" required>
         </div>
       </div>
+
       <div class="form-group">
-        <label class="form-label" for="htmlFile">File HTML</label>
-        <div style="position: relative;">
-          <i class="fas fa-file-code input-icon"></i>
-          <input type="file" id="htmlFile" name="file" class="form-control" accept=".html" required>
-        </div>
+        <label class="form-label">File HTML</label>
+        <label for="htmlFile" class="file-label">
+          <i class="fas fa-file-code"></i>
+          <span id="fileText">Pilih File</span>
+        </label>
+        <input type="file" id="htmlFile" name="file" accept=".html" required>
       </div>
+
       <button type="submit" class="btn btn-primary">
         <i class="fas fa-upload"></i> Deploy Sekarang
       </button>
+
       <div id="resultBox" class="result-box">
         <div class="result-logo"><i class="fas fa-check-circle"></i></div>
         <div class="result-title">Deploy Successfully</div>
@@ -393,9 +502,9 @@
 
   <div id="historyModal" class="modal">
     <div class="modal-box" style="max-width: 480px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: .5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
         <div class="modal-title">Riwayat Deploy</div>
-        <button onclick="closeHistoryModal()" class="modal-btn modal-btn-cancel" style="padding: .25rem .55rem;">&times;</button>
+        <button onclick="closeHistoryModal()" class="modal-btn modal-btn-cancel" style="padding: 0.25rem 0.55rem;">&times;</button>
       </div>
       <div id="historyList" class="history-list"></div>
       <div id="historyEmpty" class="history-empty hidden">Belum ada riwayat deploy.</div>
@@ -415,12 +524,12 @@
 
   <div id="listModal" class="modal">
     <div class="modal-box" style="max-width: 500px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
         <div class="modal-title">Daftar Project</div>
-        <button onclick="closeListModal()" class="modal-btn modal-btn-cancel" style="padding: .25rem .55rem;">&times;</button>
+        <button onclick="closeListModal()" class="modal-btn modal-btn-cancel" style="padding: 0.25rem 0.55rem;">&times;</button>
       </div>
       <div id="projectListLoading" class="text-sm text-gray-500 text-center">
-        <div class="spinner" style="width: 24px; height: 24px; border-width: 3px; margin: 0 auto .5rem;"></div>
+        <div class="spinner" style="width: 24px; height: 24px; border-width: 3px; margin: 0 auto 0.5rem;"></div>
         Loading....
       </div>
       <div id="projectList" class="hidden" style="max-height: 320px; overflow-x: auto;"></div>
@@ -441,29 +550,31 @@
   </div>
 
   <script>
-    const form = document.getElementById('deployForm');
-    const resultBox = document.getElementById('resultBox');
-
     function showLoading(text = 'Loading....') {
       document.getElementById('loadingText').textContent = text;
       document.getElementById('loadingOverlay').style.display = 'flex';
     }
-
     function hideLoading() {
       document.getElementById('loadingOverlay').style.display = 'none';
     }
-
-    function showResult(data) {
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.querySelector('.toast-body').textContent = msg;
+      toast.className = 'toast ' + type;
+      toast.style.display = 'flex';
+      setTimeout(() => toast.style.display = 'none', 4000);
+    }
+    const resultBox = document.getElementById('resultBox');
+    function showResult({ name, file, url }) {
       resultBox.style.display = 'block';
       resultBox.classList.remove('error');
       document.querySelector('.result-logo').innerHTML = '<i class="fas fa-check-circle"></i>';
       document.querySelector('.result-title').textContent = 'Deploy Successfully';
-      document.getElementById('resName').textContent = data.name;
-      document.getElementById('resFile').textContent = data.file;
-      document.getElementById('resUrl').textContent = data.url;
-      document.getElementById('resUrl').href = data.url;
+      document.getElementById('resName').textContent = name;
+      document.getElementById('resFile').textContent = file;
+      document.getElementById('resUrl').textContent = url;
+      document.getElementById('resUrl').href = url;
     }
-
     function showErrorResult(msg) {
       resultBox.style.display = 'block';
       resultBox.classList.add('error');
@@ -474,19 +585,12 @@
       document.getElementById('resUrl').textContent = msg;
       document.getElementById('resUrl').href = '#';
     }
-
     function saveHistory(name, file, url) {
       const history = JSON.parse(localStorage.getItem('deployHistory') || '[]');
-      history.unshift({
-        name,
-        file,
-        url,
-        time: new Date().toLocaleString('id-ID')
-      });
+      history.unshift({ name, file, url, time: new Date().toLocaleString('id-ID') });
       if (history.length > 20) history.pop();
       localStorage.setItem('deployHistory', JSON.stringify(history));
     }
-
     function openHistoryModal() {
       showLoading('Memuat riwayat....');
       const history = JSON.parse(localStorage.getItem('deployHistory') || '[]');
@@ -502,11 +606,11 @@
         listDiv.innerHTML = history.map(h => `
           <div class="history-item">
             <div><strong>${h.name}</strong></div>
-            <div style="font-size: .75rem; color: var(--gray); margin-top: .25rem;">
+            <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
               File: ${h.file} • ${h.time}
             </div>
-            <div style="margin-top: .25rem;">
-              <a href="${h.url}" target="_blank" style="font-size: .75rem; color: var(--primary);">🔗 ${h.url}</a>
+            <div style="margin-top: 0.25rem;">
+              <a href="${h.url}" target="_blank" style="font-size: 0.75rem; color: var(--primary);">🔗 ${h.url}</a>
             </div>
           </div>
         `).join('');
@@ -514,22 +618,21 @@
       hideLoading();
       document.getElementById('historyModal').style.display = 'flex';
     }
-
     function closeHistoryModal() {
       document.getElementById('historyModal').style.display = 'none';
     }
-
+    const form = document.getElementById('deployForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       resultBox.style.display = 'none';
       const siteName = document.getElementById('siteName').value.trim();
       const fileInput = document.getElementById('htmlFile');
       const fileName = fileInput.files[0]?.name || '';
-
+      if (!siteName || !fileInput.files[0]) return showToast('Nama & file harus diisi!', 'error');
       showLoading('Deploying....');
-      const formData = new FormData(form);
+      const body = new FormData(form);
       try {
-        const res = await fetch('/deploy', { method: 'POST', body: formData });
+        const res = await fetch('/deploy', { method: 'POST', body });
         const data = await res.json();
         hideLoading();
         if (res.ok) {
@@ -538,15 +641,17 @@
         } else {
           showErrorResult(data.error || 'Terjadi kesalahan saat deploy.');
         }
-      } catch {
+      } catch (err) {
         hideLoading();
         showErrorResult('Gagal terhubung ke server.');
       }
     });
-
+    document.getElementById('htmlFile').addEventListener('change', function () {
+      const fileName = this.files[0]?.name || 'Pilih File';
+      document.getElementById('fileText').textContent = fileName;
+    });
     let currentAction = null;
     let accessKey = '';
-
     function openKeyModal(action) {
       currentAction = action;
       closeListModal();
@@ -558,24 +663,20 @@
         document.getElementById('keyInput').focus();
       }, 300);
     }
-
     function closeKeyModal() {
       document.getElementById('keyModal').style.display = 'none';
     }
-
     function closeListModal() {
       document.getElementById('listModal').style.display = 'none';
     }
-
     async function submitKey() {
       const key = document.getElementById('keyInput').value.trim();
-      if (!key) return alert('Access key tidak boleh kosong');
+      if (!key) return showToast('Access key tidak boleh kosong', 'error');
       accessKey = key;
       closeKeyModal();
       if (currentAction === 'list') await loadProjects();
       else if (currentAction?.type === 'delete') await deleteProject(currentAction.name);
     }
-
     async function loadProjects() {
       const listDiv = document.getElementById('projectList');
       const loading = document.getElementById('projectListLoading');
@@ -585,7 +686,7 @@
       try {
         const res = await fetch(`/projects?key=${accessKey}`);
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Gagal load project');
+        if (!res.ok) throw new Error(data.error || 'Gagal ambil daftar');
         if (data.projects.length === 0) {
           listDiv.innerHTML = '<p class="text-sm text-gray-500 text-center">Tidak ada project.</p>';
         } else {
@@ -604,33 +705,23 @@
         document.getElementById('listModal').style.display = 'flex';
       }
     }
-
     function confirmDelete(name) {
       currentAction = { type: 'delete', name };
       openKeyModal(currentAction);
     }
-
     async function deleteProject(name) {
       showLoading('Deleting....');
       try {
         const res = await fetch(`/projects/${name}?key=${accessKey}`, { method: 'DELETE' });
         const data = await res.json();
         hideLoading();
-        if (!res.ok) throw new Error(data.error || 'Gagal hapus');
-        showToast(` Project '${name}' berhasil terhapus`, 'success');
+        if (!res.ok) throw new Error(data.error || 'Hapus gagal');
+        showToast(`Project '${name}' berhasil terhapus`, 'success');
         loadProjects();
       } catch (err) {
         hideLoading();
-        showToast(` ${err.message}`, 'error');
+        showToast(err.message, 'error');
       }
-    }
-
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      toast.querySelector('.toast-body').textContent = message;
-      toast.className = 'toast ' + type;
-      toast.style.display = 'flex';
-      setTimeout(() => toast.style.display = 'none', 4000);
     }
   </script>
 </body>
