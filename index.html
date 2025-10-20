@@ -417,34 +417,6 @@
       font-size: 0.8rem;
       margin-top: 1rem;
     }
-
-    /* hidden file input + label button */
-    #htmlFile {
-      position: absolute;
-      left: -9999px;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .file-label {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--gray-light);
-      border-radius: 0.5rem;
-      background: var(--light);
-      color: var(--dark);
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .file-label:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-    .file-label i {
-      color: var(--primary);
-    }
   </style>
 </head>
 <body>
@@ -458,7 +430,7 @@
       <span class="logo-text">Deploy ke Vercel</span>
     </div>
 
-    <form class="deploy-form" id="deployForm">
+    <form class="deploy-form" id="deployForm" enctype="multipart/form-data">
       <div class="form-group">
         <label class="form-label" for="siteName">Nama Website</label>
         <div style="position: relative;">
@@ -466,20 +438,16 @@
           <input type="text" id="siteName" name="name" class="form-control" placeholder="contoh: mysite" required>
         </div>
       </div>
-
       <div class="form-group">
-        <label class="form-label">Input File</label>
-        <label for="htmlFile" class="file-label">
-          <i class="fas fa-file-code"></i>
-          <span id="fileText">Pilih File</span>
-        </label>
-        <input type="file" id="htmlFile" name="file" accept=".html" required>
+        <label class="form-label" for="htmlFile">File HTML</label>
+        <div style="position: relative;">
+          <i class="fas fa-file-code input-icon"></i>
+          <input type="file" id="htmlFile" name="file" class="form-control" accept=".html" required>
+        </div>
       </div>
-
       <button type="submit" class="btn btn-primary">
         <i class="fas fa-upload"></i> Deploy Sekarang
       </button>
-
       <div id="resultBox" class="result-box">
         <div class="result-logo"><i class="fas fa-check-circle"></i></div>
         <div class="result-title">Deploy Successfully</div>
@@ -591,6 +559,11 @@
       if (history.length > 20) history.pop();
       localStorage.setItem('deployHistory', JSON.stringify(history));
     }
+    function clearHistory() {
+      localStorage.removeItem('deployHistory');
+      openHistoryModal();
+      showToast('Riwayat dihapus', 'success');
+    }
     function openHistoryModal() {
       showLoading('Memuat riwayat....');
       const history = JSON.parse(localStorage.getItem('deployHistory') || '[]');
@@ -603,17 +576,21 @@
       } else {
         emptyDiv.classList.add('hidden');
         listDiv.classList.remove('hidden');
-        listDiv.innerHTML = history.map(h => `
-          <div class="history-item">
-            <div><strong>${h.name}</strong></div>
-            <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
-              File: ${h.file} • ${h.time}
+        listDiv.innerHTML =
+          history.map(h => `
+            <div class="history-item">
+              <div><strong>${h.name}</strong></div>
+              <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
+                File: ${h.file} • ${h.time}
+              </div>
+              <div style="margin-top: 0.25rem;">
+                <a href="${h.url}" target="_blank" style="font-size: 0.75rem; color: var(--primary);">🔗 ${h.url}</a>
+              </div>
             </div>
-            <div style="margin-top: 0.25rem;">
-              <a href="${h.url}" target="_blank" style="font-size: 0.75rem; color: var(--primary);">🔗 ${h.url}</a>
-            </div>
-          </div>
-        `).join('');
+          `).join('') +
+          `<div class="text-center mt-3">
+             <button onclick="clearHistory()" class="modal-btn modal-btn-cancel">Hapus Semua</button>
+           </div>`;
       }
       hideLoading();
       document.getElementById('historyModal').style.display = 'flex';
@@ -645,10 +622,6 @@
         hideLoading();
         showErrorResult('Gagal terhubung ke server.');
       }
-    });
-    document.getElementById('htmlFile').addEventListener('change', function () {
-      const fileName = this.files[0]?.name || 'Pilih File';
-      document.getElementById('fileText').textContent = fileName;
     });
     let currentAction = null;
     let accessKey = '';
