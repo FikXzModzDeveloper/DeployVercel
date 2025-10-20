@@ -185,7 +185,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
+      z-index: 10010;
     }
     .modal-box {
       background: white;
@@ -281,7 +281,7 @@
       gap: 0.75rem;
       min-width: 280px;
       max-width: 380px;
-      z-index: 10000;
+      z-index: 10020;
       animation: toastIn 0.4s ease;
     }
     @keyframes toastIn {
@@ -368,7 +368,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 10001;
+      z-index: 10030;
     }
     .loading-box {
       text-align: center;
@@ -417,6 +417,32 @@
       font-size: 0.8rem;
       margin-top: 1rem;
     }
+    #htmlFile {
+      position: absolute;
+      left: -9999px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .file-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--gray-light);
+      border-radius: 0.5rem;
+      background: var(--light);
+      color: var(--dark);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .file-label:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .file-label i {
+      color: var(--primary);
+    }
   </style>
 </head>
 <body>
@@ -430,7 +456,7 @@
       <span class="logo-text">Deploy ke Vercel</span>
     </div>
 
-    <form class="deploy-form" id="deployForm" enctype="multipart/form-data">
+    <form class="deploy-form" id="deployForm">
       <div class="form-group">
         <label class="form-label" for="siteName">Nama Website</label>
         <div style="position: relative;">
@@ -438,16 +464,20 @@
           <input type="text" id="siteName" name="name" class="form-control" placeholder="contoh: mysite" required>
         </div>
       </div>
+
       <div class="form-group">
-        <label class="form-label" for="htmlFile">File HTML</label>
-        <div style="position: relative;">
-          <i class="fas fa-file-code input-icon"></i>
-          <input type="file" id="htmlFile" name="file" class="form-control" accept=".html" required>
-        </div>
+        <label class="form-label">File HTML</label>
+        <label for="htmlFile" class="file-label">
+          <i class="fas fa-file-code"></i>
+          <span id="fileText">Pilih File</span>
+        </label>
+        <input type="file" id="htmlFile" name="file" accept=".html" required>
       </div>
+
       <button type="submit" class="btn btn-primary">
         <i class="fas fa-upload"></i> Deploy Sekarang
       </button>
+
       <div id="resultBox" class="result-box">
         <div class="result-logo"><i class="fas fa-check-circle"></i></div>
         <div class="result-title">Deploy Successfully</div>
@@ -518,6 +548,18 @@
   </div>
 
   <script>
+    function safeLs(key, def) {
+      try {
+        return JSON.parse(localStorage.getItem(key)) ?? def;
+      } catch {
+        return def;
+      }
+    }
+    function safeSetLs(key, val) {
+      try {
+        localStorage.setItem(key, JSON.stringify(val));
+      } catch {}
+    }
     function showLoading(text = 'Loading....') {
       document.getElementById('loadingText').textContent = text;
       document.getElementById('loadingOverlay').style.display = 'flex';
@@ -530,7 +572,7 @@
       toast.querySelector('.toast-body').textContent = msg;
       toast.className = 'toast ' + type;
       toast.style.display = 'flex';
-      setTimeout(() => toast.style.display = 'none', 4000);
+      setTimeout(() => (toast.style.display = 'none'), 4000);
     }
     const resultBox = document.getElementById('resultBox');
     function showResult({ name, file, url }) {
@@ -554,19 +596,14 @@
       document.getElementById('resUrl').href = '#';
     }
     function saveHistory(name, file, url) {
-      const history = JSON.parse(localStorage.getItem('deployHistory') || '[]');
+      const history = safeLs('deployHistory', []);
       history.unshift({ name, file, url, time: new Date().toLocaleString('id-ID') });
       if (history.length > 20) history.pop();
-      localStorage.setItem('deployHistory', JSON.stringify(history));
-    }
-    function clearHistory() {
-      localStorage.removeItem('deployHistory');
-      openHistoryModal();
-      showToast('Riwayat dihapus', 'success');
+      safeSetLs('deployHistory', history);
     }
     function openHistoryModal() {
       showLoading('Memuat riwayat....');
-      const history = JSON.parse(localStorage.getItem('deployHistory') || '[]');
+      const history = safeLs('deployHistory', []);
       const listDiv = document.getElementById('historyList');
       const emptyDiv = document.getElementById('historyEmpty');
       listDiv.innerHTML = '';
@@ -576,21 +613,21 @@
       } else {
         emptyDiv.classList.add('hidden');
         listDiv.classList.remove('hidden');
-        listDiv.innerHTML =
-          history.map(h => `
-            <div class="history-item">
-              <div><strong>${h.name}</strong></div>
-              <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
-                File: ${h.file} • ${h.time}
-              </div>
-              <div style="margin-top: 0.25rem;">
-                <a href="${h.url}" target="_blank" style="font-size: 0.75rem; color: var(--primary);">🔗 ${h.url}</a>
-              </div>
+        listDiv.innerHTML = history
+          .map(
+            (h) => `
+          <div class="history-item">
+            <div><strong>${h.name}</strong></div>
+            <div style="font-size: 0.75rem; color: var(--gray); margin-top: 0.25rem;">
+              File: ${h.file} • ${h.time}
             </div>
-          `).join('') +
-          `<div class="text-center mt-3">
-             <button onclick="clearHistory()" class="modal-btn modal-btn-cancel">Hapus Semua</button>
-           </div>`;
+            <div style="margin-top: 0.25rem;">
+              <a href="${h.url}" target="_blank" style="font-size: 0.75rem; color: var(--primary);">🔗 ${h.url}</a>
+            </div>
+          </div>
+        `
+          )
+          .join('');
       }
       hideLoading();
       document.getElementById('historyModal').style.display = 'flex';
@@ -622,6 +659,10 @@
         hideLoading();
         showErrorResult('Gagal terhubung ke server.');
       }
+    });
+    document.getElementById('htmlFile').addEventListener('change', function () {
+      const fileName = this.files[0]?.name || 'Pilih File';
+      document.getElementById('fileText').textContent = fileName;
     });
     let currentAction = null;
     let accessKey = '';
@@ -663,12 +704,16 @@
         if (data.projects.length === 0) {
           listDiv.innerHTML = '<p class="text-sm text-gray-500 text-center">Tidak ada project.</p>';
         } else {
-          listDiv.innerHTML = data.projects.map(p => `
+          listDiv.innerHTML = data.projects
+            .map(
+              (p) => `
             <div class="project-item">
               <a href="https://${p.name}.vercel.app" target="_blank" class="project-link">${p.name}</a>
               <button onclick="confirmDelete('${p.name}')" class="project-del">Hapus</button>
             </div>
-          `).join('');
+          `
+            )
+            .join('');
         }
       } catch (err) {
         listDiv.innerHTML = `<p class="text-sm text-center" style="color: var(--danger);"> ${err.message}</p>`;
